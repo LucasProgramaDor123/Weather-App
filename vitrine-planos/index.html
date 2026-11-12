@@ -364,30 +364,30 @@ body.view-fin .fin{display:block;min-height:100vh;padding-bottom:70px;color:#1B2
 .fin__title b{font-size:16px}
 .fin__title span{font-size:12.5px;color:#5B6779;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .fin__tools{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:8px}
-.fin__legend{display:flex;flex-wrap:wrap;align-items:center;gap:6px 20px;max-width:1500px;margin:14px auto 0;padding:0 20px;font-size:12.5px;color:#4A5568}
+.fin__legend{display:flex;flex-wrap:wrap;align-items:center;gap:6px 20px;max-width:1200px;margin:14px auto 0;padding:0 20px;font-size:12.5px;color:#4A5568}
 .fin__legend i{display:inline-block;width:26px;height:14px;margin-right:7px;border:1px solid #C3CBD8;vertical-align:-2px;background:#fff}
 .fin__legend .lg-in{background:#FFF2CC}
-.fin__narrow{display:none}
-.fin__grid{display:grid;grid-template-columns:minmax(0,500px) minmax(0,1fr);gap:22px;align-items:start;max-width:1500px;margin:0 auto;padding:12px 20px 0}
+.fin__grid{display:grid;grid-template-columns:minmax(0,520px) minmax(0,1fr);gap:22px;align-items:start;max-width:1200px;margin:0 auto;padding:12px 20px 0}
 .fin__col{display:grid;gap:18px;min-width:0}
 .fin__sec{min-width:0}
 .fin__under{margin-top:8px}
 .xlw{overflow-x:auto;background:#fff;box-shadow:0 1px 2px rgba(16,24,40,.1)}
-.xl{width:100%;border-collapse:collapse;background:#fff;font-variant-numeric:tabular-nums}
+.xl{--px:8px;width:100%;border-collapse:collapse;background:#fff;font-variant-numeric:tabular-nums}
 .xl caption{caption-side:top;padding:5px 8px;background:#1F4391;color:#fff;font-size:13.5px;font-weight:700;letter-spacing:.02em;text-align:left;white-space:nowrap}
 .xl th,.xl td{height:26px;padding:0;border:1px solid #CFD6E1}
-.xl thead th{padding:5px 8px;background:#D7EEF6;color:#17357D;font-weight:700;text-align:center;line-height:1.2}
+.xl thead th{padding:5px var(--px);background:#D7EEF6;color:#17357D;font-weight:700;text-align:center;line-height:1.2}
 .xl thead th:first-child{text-align:left}
 .xl thead th.is-act{background:#B9E0EE}
-.xl tbody th{padding:5px 8px;font-weight:400;text-align:left;background:#fff;white-space:nowrap}
+.xl tbody th{padding:5px var(--px);font-weight:400;text-align:left;background:#fff;white-space:nowrap}
 .xl td{text-align:right}
-.xl td.o{padding:5px 8px;white-space:nowrap}
-.xl td.c{padding:5px 8px;text-align:center}
+.xl td.o{padding:5px var(--px);white-space:nowrap}
+.xl td.c{padding:5px var(--px);text-align:center}
 .xl td.calc{background:#EEF3FB}
-.xl tr.sub th,.xl tr.sub td{padding:5px 8px;background:#D7EEF6;color:#17357D;font-weight:700;white-space:nowrap}
+.xl tr.sub th,.xl tr.sub td{padding:5px var(--px);background:#D7EEF6;color:#17357D;font-weight:700;white-space:nowrap}
 .xl td.in,.xl td.is-over{background:#FFF2CC}
-.xl input,.xl select{display:block;width:100%;min-width:0;height:26px;margin:0;padding:0 8px;border:0;border-radius:0;background:transparent;font:inherit;color:inherit;text-align:right;outline:none;appearance:none;-webkit-appearance:none}
-.xl select{text-align:center;text-align-last:center;cursor:pointer}
+.xl input,.xl select{display:block;width:100%;min-width:0;height:26px;margin:0;padding:0 var(--px);border:0;border-radius:0;background:transparent;font:inherit;color:inherit;text-align:right;outline:none;appearance:none;-webkit-appearance:none}
+.xl input[data-fit]{min-width:calc(var(--w,0) * 1ch + 2 * var(--px))}
+.xl select{min-width:calc(17ch + 2 * var(--px));text-align:center;text-align-last:center;cursor:pointer}
 .xl td.in input,.xl td.in select,.xl td.is-over input{color:#0B24C8}
 .xl td.txt input{text-align:left}
 .xl td.ctr input{text-align:center}
@@ -401,31 +401,37 @@ body.view-fin .fin{display:block;min-height:100vh;padding-bottom:70px;color:#1B2
 .xl .rm svg{width:9px;height:9px}
 .xl tr:hover .rm,.xl .rm:focus{opacity:1}
 .xl .rm:hover{background:#FDE2E2;color:#B91C1C}
-.xl--sched{min-width:860px}
 .xl--sched thead th{white-space:normal;vertical-align:middle}
 .xl--sched tbody tr:nth-child(even) td{background:#EEF3FB}
 .xl--sched tbody tr td.is-over{background:#FFF2CC}
 .xl--sched tbody tr.is-ref td:first-child{box-shadow:inset 3px 0 0 #1E7145;font-weight:700}
 .xl--sched td.ov input{cursor:cell}
-.xl tfoot th,.xl tfoot td{padding:6px 8px;background:#D7EEF6;color:#17357D;font-weight:700;white-space:nowrap}
-.xl tfoot th{text-align:left}
 @media (hover:none){.xl .rm{opacity:.7}}
-@media (max-width:1180px){.fin__grid{grid-template-columns:minmax(0,1fr)}}
-@media (max-width:900px){.fin__narrow{display:inline}}
+@media (max-width:1000px){.fin__grid{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:720px){
   .fin__bar{flex-wrap:wrap;padding:10px 12px}
   .fin__tools{flex:1 1 100%;justify-content:flex-start}
   .fin__grid,.fin__legend{padding-left:12px;padding-right:12px}
-  .xl tbody th{white-space:normal}
+  .xl caption{white-space:normal}
+  .xl{--px:6px}
+  .xl tbody th,.xl tr.sub th,.xl tr.sub td{white-space:normal}
   .xl th.hin input{min-width:98px}
   .xl td.lbl input{min-width:96px}
   .xl td.o{white-space:normal}
   .xl--sched td.o{white-space:nowrap}
 }
+@media (max-width:480px){
+  body.view-fin .fin{font-size:12px}
+  .xl{--px:5px}
+  .xl caption{font-size:12.5px}
+  .xl th.hin input{min-width:88px}
+  .xl td.lbl input{min-width:90px}
+}
 @media print{
   @page{size:A4 landscape;margin:10mm 8mm}
   body.view-fin{background:#fff}
   body.view-fin .fin{padding:0;font-size:11px}
+  .xl{--px:6px}
   .fin__bar{position:static;border:0;padding:0 0 8px}
   .fin__tools,.fin__bar .ebtn,.fin__legend,.fin__under,.xl .rm,.toast{display:none!important}
   .fin__grid{display:block;max-width:none;padding:0}
@@ -434,7 +440,6 @@ body.view-fin .fin{display:block;min-height:100vh;padding-bottom:70px;color:#1B2
   .fin__col + .fin__col{break-before:page}
   .fin__sec{margin-bottom:12px;break-inside:avoid}
   .fin .xlw{box-shadow:none;overflow:visible}
-  .xl--sched{min-width:0}
   .xl th,.xl td,.xl input,.xl select{height:21px}
   .xl caption{font-size:12px}
   .xl th,.xl td,.xl caption{-webkit-print-color-adjust:exact;print-color-adjust:exact}
@@ -1267,11 +1272,11 @@ document.addEventListener('keydown', e => {
      vencimento  = 1º vencimento + (mês - 1) meses
      crédito     = crédito mensal contratado do cenário
      mensalidade = mensalidade do cenário, depois dos meses de carência
-     base fim    = base início + novas vendas - cancelamentos
-     churn       = cancelamentos / base início
-     receita     = base fim x receita média por assinante
-   Crédito, mensalidade, novas vendas e cancelamentos aceitam um valor
-   digitado por mês (state.finance.over), que substitui o cálculo.
+     base início = base do fim do mês anterior (base + novas vendas - cancelamentos)
+   Crédito e mensalidade aceitam um valor digitado por mês
+   (state.finance.over), que substitui o cálculo.
+   A base no fim do mês e a receita (base x receita média por assinante)
+   continuam calculadas, só para os indicadores do mês de referência.
    ===================================================================== */
 const FIN_HASH = '#analise';
 const finEl = $('#fin');
@@ -1324,8 +1329,19 @@ function normalizeFinance(f) {
     scen: { A: Object.assign(b.scen.A, scen.A), B: Object.assign(b.scen.B, scen.B) },
     areas: Array.isArray(f.areas) ? f.areas.map(a => ({ name: String((a && a.name) || ''), cost: Number(a && a.cost) || 0, ref: Number(a && a.ref) || 0 })) : b.areas,
     base: Object.assign(b.base, f.base),
-    over: { A: Object.assign({}, over.A), B: Object.assign({}, over.B) }
+    over: { A: finCleanOver(over.A), B: finCleanOver(over.B) }
   };
+}
+/* mantém só o que o cronograma ainda deixa digitar (crédito e mensalidade) */
+function finCleanOver(o) {
+  const out = {};
+  Object.keys(o || {}).forEach(m => {
+    const x = o[m] || {}, k = {};
+    if (x.credit !== undefined) k.credit = x.credit;
+    if (x.fee !== undefined) k.fee = x.fee;
+    if (Object.keys(k).length) out[m] = k;
+  });
+  return out;
 }
 
 /* ---------- cálculo ---------- */
@@ -1338,15 +1354,13 @@ function finSchedule(key) {
     const o = ov[m] || {};
     const credit = o.credit !== undefined ? fnum(o.credit) : fnum(s.credit);
     const fee = o.fee !== undefined ? fnum(o.fee) : (m > fnum(b.grace) ? fnum(s.fee) : 0);
-    const sales = o.sales !== undefined ? fnum(o.sales) : fnum(b.sales);
-    const cancels = o.cancels !== undefined ? fnum(o.cancels) : fnum(b.cancels);
+    const sales = fnum(b.sales), cancels = fnum(b.cancels);
     const end = Math.max(0, start + sales - cancels);
-    rows.push({ m, due: addMonths(s.first, m - 1), credit, fee, start, sales, cancels, end, churn: start > 0 ? cancels / start : 0, revenue: end * fnum(b.ticket), o });
+    rows.push({ m, due: addMonths(s.first, m - 1), credit, fee, start, end, revenue: end * fnum(b.ticket), o });
     start = end;
   }
   return rows;
 }
-const finSum = (rows, k) => rows.reduce((t, r) => t + r[k], 0);
 const finName = () => (state.finance.provider || state.provider.name || '').trim();
 function finPath(path) {
   const k = path.split('.');
@@ -1377,23 +1391,27 @@ function finParse(kind, s) {
   if (kind === 'date') return parseDateBR(s);
   return s;
 }
-const FIN_OV = { credit: 'money', fee: 'money', sales: 'int', cancels: 'int' };
-const FIN_OV_LABEL = { credit: 'Crédito contratado', fee: 'Mensalidade da parceria', sales: 'Novas vendas', cancels: 'Cancelamentos' };
+/* largura mínima da célula numérica, em "ch": letras e algarismos contam 1, pontuação e espaço contam meio.
+   Assim o valor nunca aparece cortado em telas estreitas; a tabela é que passa a rolar para os lados. */
+const finW = v => { v = String(v == null ? '' : v); const wide = v.replace(/[^0-9A-Za-z$%]/g, '').length; return (wide + (v.length - wide) * .5 + .6).toFixed(1); };
+const finFit = el => { if (el.hasAttribute('data-fit')) el.style.setProperty('--w', finW(el.value)); };
+const finFitAttr = shown => ' data-fit style="--w:' + finW(shown) + '"';
+const FIN_OV = { credit: 'money', fee: 'money' };
+const FIN_OV_LABEL = { credit: 'Crédito contratado', fee: 'Mensalidade da parceria' };
 function finOvShow(col, r) {
-  if (FIN_OV[col] === 'int') return fmtInt(r[col]);
   return r.o[col] === undefined && col === 'fee' && !r.fee ? '' : 'R$ ' + money(r[col]);   // carência: mensalidade em branco
 }
 let finRowsNow = [];
 
 /* ---------- desenho ---------- */
 function finInput(path, kind, label, col, cls) {
-  return '<td class="in' + (cls ? ' ' + cls : '') + '"><input type="text"' + (kind === 'text' || kind === 'date' ? '' : ' inputmode="decimal"') +
-    ' autocomplete="off" data-f="' + path + '" data-k="' + kind + '" data-col="' + col + '" value="' + esc(finShow(kind, finGet(path))) + '" aria-label="' + esc(label) + '"></td>';
+  const shown = finShow(kind, finGet(path));
+  return '<td class="in' + (cls ? ' ' + cls : '') + '"><input type="text"' + (kind === 'text' || kind === 'date' ? '' : ' inputmode="decimal"') + (kind === 'text' ? '' : finFitAttr(shown)) +
+    ' autocomplete="off" data-f="' + path + '" data-k="' + kind + '" data-col="' + col + '" value="' + esc(shown) + '" aria-label="' + esc(label) + '"></td>';
 }
 function finRowHTML(r) {
-  const ov = col => '<td class="ov"><input type="text" inputmode="decimal" autocomplete="off" data-ov="' + col + '" data-m="' + r.m + '" data-k="' + FIN_OV[col] + '" data-col="o-' + col + '" aria-label="' + FIN_OV_LABEL[col] + ', mês ' + r.m + '"></td>';
-  return '<tr><td class="c">' + r.m + '</td><td class="c" data-s="due"></td>' + ov('credit') + ov('fee') + '<td class="o" data-s="start"></td>' + ov('sales') + ov('cancels') +
-    '<td class="o" data-s="end"></td><td class="o" data-s="churn"></td><td class="o" data-s="revenue"></td></tr>';
+  const ov = col => '<td class="ov"><input type="text" size="11" data-fit inputmode="decimal" autocomplete="off" data-ov="' + col + '" data-m="' + r.m + '" data-k="' + FIN_OV[col] + '" data-col="o-' + col + '" aria-label="' + FIN_OV_LABEL[col] + ', mês ' + r.m + '"></td>';
+  return '<tr><td class="c">' + r.m + '</td><td class="c" data-s="due"></td>' + ov('credit') + ov('fee') + '<td class="o" data-s="start"></td></tr>';
 }
 function renderFinance() {
   const f = state.finance, act = f.active;
@@ -1406,9 +1424,7 @@ function renderFinance() {
     '<tr><th>Premissa</th>' + ['A', 'B'].map(k => '<th' + (k === act ? ' class="is-act"' : '') + '>Cenário ' + k + (k === act ? ' (ativo)' : '') + '</th>').join('') + '</tr>',
     '<tbody>' + scenRow('Identificação da proposta', 'id', 'text', 'ctr') + scenRow('Mensalidade da parceria (R$)', 'fee', 'money') + scenRow('Crédito mensal contratado (R$)', 'credit', 'money') +
       scenRow('Prazo do contrato (meses)', 'term', 'int') + scenRow('1º vencimento', 'first', 'date') +
-      '<tr class="sub"><th colspan="3">Totais (calculados)</th></tr>' +
-      '<tr><th scope="row">Mensalidade + crédito por mês</th><td class="o calc" data-o="A.monthly"></td><td class="o calc" data-o="B.monthly"></td></tr>' +
-      '<tr><th scope="row">Total no prazo do contrato</th><td class="o calc" data-o="A.total"></td><td class="o calc" data-o="B.total"></td></tr></tbody>');
+      '<tr><th scope="row">Mensalidade + crédito por mês</th><td class="o calc" data-o="A.monthly"></td><td class="o calc" data-o="B.monthly"></td></tr></tbody>');
 
   const s2 = box('2. IDENTIFICAÇÃO E CENÁRIO ATIVO', '',
     '<tbody><tr><th scope="row">Nome do provedor</th><td class="in ctr"><input type="text" autocomplete="off" data-f="provider" data-k="text" data-col="v2" value="' + esc(f.provider) + '" placeholder="' + esc(state.provider.name) + '" aria-label="Nome do provedor"></td></tr>' +
@@ -1424,7 +1440,7 @@ function renderFinance() {
       '<tr><td class="txt lbl"><input type="text" autocomplete="off" data-f="areas.' + i + '.name" data-k="text" data-col="an" value="' + esc(a.name) + '" aria-label="Nome da área">' +
         '<button type="button" class="rm" data-act="fin-area-del" data-i="' + i + '" aria-label="Remover a área ' + esc(a.name) + '" title="Remover área">' + ICON.close + '</button></td>' +
       finInput('areas.' + i + '.cost', 'money', 'Custo unitário, ' + a.name, 'ac') +
-      '<td class="ref"><input type="text" inputmode="decimal" autocomplete="off" data-f="areas.' + i + '.ref" data-k="dec" data-col="ar" value="' + esc(finShow('dec', a.ref)) + '" aria-label="' + esc(f.refLabel + ', ' + a.name) + '"></td>' +
+      '<td class="ref"><input type="text" inputmode="decimal"' + finFitAttr(finShow('dec', a.ref)) + ' autocomplete="off" data-f="areas.' + i + '.ref" data-k="dec" data-col="ar" value="' + esc(finShow('dec', a.ref)) + '" aria-label="' + esc(f.refLabel + ', ' + a.name) + '"></td>' +
       '<td class="o calc" data-o="area.' + i + '.cover"></td></tr>').join('') + '</tbody>',
     '<p class="fin__under"><button type="button" class="ebtn ebtn--sm" data-act="fin-area-add">' + ICON.plus + 'Adicionar área</button></p>');
 
@@ -1435,13 +1451,11 @@ function renderFinance() {
   const s5 = box('5. INDICADORES DO CENÁRIO ATIVO', '',
     '<tbody><tr class="sub"><th>No mês de referência</th><td data-o="ind.ref"></td></tr>' +
       outRow('Parceria no mês (crédito + mensalidade)', 'ind.pay') + outRow('Base no fim do mês', 'ind.base') + outRow('Receita estimada da base', 'ind.rev') +
-      outRow('Parceria sobre a receita do mês', 'ind.share') + outRow('Custo da parceria por assinante', 'ind.persub') +
-      '<tr class="sub"><th>No contrato inteiro</th><td data-o="ind.term"></td></tr>' +
-      outRow('Total da parceria', 'ind.total') + outRow('Receita estimada da base', 'ind.revTotal') + outRow('Parceria sobre a receita', 'ind.shareTotal') + outRow('Crescimento da base', 'ind.growth') + '</tbody>');
+      outRow('Parceria sobre a receita do mês', 'ind.share') + outRow('Custo da parceria por assinante', 'ind.persub') + '</tbody>');
 
   const s6 = box('6. CRONOGRAMA E PROJEÇÃO MENSAL (cenário ativo)',
-    '<tr><th>Mês</th><th>Vencimento</th><th>Crédito contratado</th><th>Mensalidade da parceria</th><th>Base no início do mês</th><th>Novas vendas</th><th>Cancela&shy;mentos</th><th>Base no fim do mês</th><th>Churn (base início)</th><th>Receita estimada da base</th></tr>',
-    '<tbody id="fin-rows"></tbody><tfoot><tr><th colspan="2">Total do contrato</th><td data-o="t.credit"></td><td data-o="t.fee"></td><td></td><td data-o="t.sales"></td><td data-o="t.cancels"></td><td data-o="t.end"></td><td data-o="t.churn"></td><td data-o="t.revenue"></td></tr></tfoot>',
+    '<tr><th>Mês</th><th>Vencimento</th><th>Crédito contratado</th><th>Mensa&shy;lidade da parceria</th><th>Base no início do mês</th></tr>',
+    '<tbody id="fin-rows"></tbody>',
     '<p class="fin__under"><button type="button" class="ebtn ebtn--sm" data-act="fin-clear-over" hidden>Restaurar os cálculos do cronograma</button></p>', ' xl--sched');
 
   finEl.innerHTML =
@@ -1452,7 +1466,7 @@ function renderFinance() {
         '<button type="button" class="ebtn" data-act="fin-print">Imprimir</button>' +
         '<button type="button" class="ebtn ebtn--pri" data-act="export">' + ICON.download + 'Exportar HTML</button></div></header>' +
     '<p class="fin__legend"><span><i class="lg-in"></i>Célula amarela: digite o valor</span><span><i></i>Demais células: calculadas</span>' +
-      '<span>No cronograma, digitar sobre um valor ajusta só aquele mês; apagar volta ao cálculo.</span><span class="fin__narrow">O cronograma rola para os lados.</span></p>' +
+      '<span>No cronograma, digitar sobre um valor ajusta só aquele mês; apagar volta ao cálculo.</span></p>' +
     '<div class="fin__grid"><div class="fin__col">' + s1 + s2 + s3 + s4 + s5 + '</div><div class="fin__col">' + s6 + '</div></div>';
   finRefresh();
 }
@@ -1460,36 +1474,23 @@ function renderFinance() {
 /* recalcula e atualiza só as células calculadas (as digitadas não são redesenhadas, para não perder o foco) */
 function finRefresh() {
   const f = state.finance, act = f.active, s = f.scen[act];
-  const sch = { A: finSchedule('A'), B: finSchedule('B') }, rows = sch[act];
+  const rows = finSchedule(act);
   finRowsNow = rows;
   f.refMonth = Math.min(Math.max(1, f.refMonth), Math.max(1, rows.length));
-  const ref = rows[f.refMonth - 1] || null, last = rows[rows.length - 1] || null, start = fnum(f.base.start);
+  const ref = rows[f.refMonth - 1] || null;
   const out = {};
-  ['A', 'B'].forEach(k => {
-    out[k + '.monthly'] = 'R$ ' + money(fnum(f.scen[k].fee) + fnum(f.scen[k].credit));
-    out[k + '.total'] = 'R$ ' + money(finSum(sch[k], 'credit') + finSum(sch[k], 'fee'));
-  });
+  ['A', 'B'].forEach(k => { out[k + '.monthly'] = 'R$ ' + money(fnum(f.scen[k].fee) + fnum(f.scen[k].credit)); });
   out['act.id'] = s.id; out['act.fee'] = 'R$ ' + money(s.fee); out['act.credit'] = 'R$ ' + money(s.credit);
   out['act.term'] = fmtInt(s.term); out['act.first'] = fmtDate(s.first);
   const credit = ref ? ref.credit : fnum(s.credit);
   f.areas.forEach((a, i) => { out['area.' + i + '.cover'] = a.cost > 0 ? fmtInt(Math.floor(credit / a.cost + 1e-9)) : ''; });
-  const pay = ref ? ref.credit + ref.fee : 0, tot = finSum(rows, 'credit') + finSum(rows, 'fee'), rev = finSum(rows, 'revenue');
+  const pay = ref ? ref.credit + ref.fee : 0;
   out['ind.ref'] = ref ? 'Mês ' + ref.m + (ref.due ? ', ' + fmtDate(ref.due) : '') : '';
   out['ind.pay'] = ref ? 'R$ ' + money(pay) : '';
   out['ind.base'] = ref ? fmtInt(ref.end) : '';
   out['ind.rev'] = ref ? 'R$ ' + money(ref.revenue) : '';
   out['ind.share'] = ref && ref.revenue > 0 ? fmtPct(pay / ref.revenue, 2) : '';
   out['ind.persub'] = ref && ref.end > 0 ? 'R$ ' + money(pay / ref.end) : '';
-  out['ind.term'] = rows.length + ' ' + plural(rows.length, 'mês', 'meses');
-  out['ind.total'] = 'R$ ' + money(tot);
-  out['ind.revTotal'] = 'R$ ' + money(rev);
-  out['ind.shareTotal'] = rev > 0 ? fmtPct(tot / rev, 2) : '';
-  out['ind.growth'] = last ? (last.end >= start ? '+' : '') + fmtInt(last.end - start) + (start > 0 ? ' (' + fmtPct((last.end - start) / start) + ')' : '') : '';
-  out['t.credit'] = 'R$ ' + money(finSum(rows, 'credit')); out['t.fee'] = 'R$ ' + money(finSum(rows, 'fee'));
-  out['t.sales'] = fmtInt(finSum(rows, 'sales')); out['t.cancels'] = fmtInt(finSum(rows, 'cancels'));
-  out['t.end'] = last ? fmtInt(last.end) : '';
-  out['t.churn'] = finSum(rows, 'start') > 0 ? fmtPct(finSum(rows, 'cancels') / finSum(rows, 'start')) : '';
-  out['t.revenue'] = 'R$ ' + money(rev);
   out.title = [finName(), 'Cenário ' + act + (s.id ? ' (' + s.id + ')' : '')].filter(Boolean).join(', ');
   $$('[data-o]', finEl).forEach(el => { const v = out[el.dataset.o]; el.textContent = v == null ? '' : v; });
 
@@ -1500,10 +1501,10 @@ function finRefresh() {
     const tr = body.children[i];
     tr.classList.toggle('is-ref', r.m === f.refMonth);
     const put = (k, v) => { $('[data-s="' + k + '"]', tr).textContent = v; };
-    put('due', fmtDate(r.due)); put('start', fmtInt(r.start)); put('end', fmtInt(r.end)); put('churn', fmtPct(r.churn)); put('revenue', 'R$ ' + money(r.revenue));
+    put('due', fmtDate(r.due)); put('start', fmtInt(r.start));
     $$('input[data-ov]', tr).forEach(inp => {
       inp.parentNode.classList.toggle('is-over', r.o[inp.dataset.ov] !== undefined);
-      if (inp !== document.activeElement) inp.value = finOvShow(inp.dataset.ov, r);
+      if (inp !== document.activeElement) { inp.value = finOvShow(inp.dataset.ov, r); finFit(inp); }
     });
   });
   const clear = $('[data-act="fin-clear-over"]', finEl);
@@ -1549,9 +1550,8 @@ function finCSV() {
   add('Carência da mensalidade (meses)', Math.round(fnum(f.base.grace)));
   add();
   add('6. CRONOGRAMA E PROJEÇÃO MENSAL (cenário ativo)');
-  add('Mês', 'Vencimento', 'Crédito contratado', 'Mensalidade da parceria', 'Base no início do mês', 'Novas vendas', 'Cancelamentos', 'Base no fim do mês', 'Churn (base início)', 'Receita estimada da base');
-  rows.forEach(r => add(r.m, fmtDate(r.due), n2(r.credit), n2(r.fee), r.start, r.sales, r.cancels, r.end, fmtPct(r.churn, 2), n2(r.revenue)));
-  add('Total', '', n2(finSum(rows, 'credit')), n2(finSum(rows, 'fee')), '', finSum(rows, 'sales'), finSum(rows, 'cancels'), rows.length ? rows[rows.length - 1].end : '', '', n2(finSum(rows, 'revenue')));
+  add('Mês', 'Vencimento', 'Crédito contratado', 'Mensalidade da parceria', 'Base no início do mês');
+  rows.forEach(r => add(r.m, fmtDate(r.due), n2(r.credit), n2(r.fee), r.start));
   return String.fromCharCode(0xFEFF) + L.join('\r\n') + '\r\n';
 }
 
@@ -1577,6 +1577,7 @@ finEl.addEventListener('focusout', e => {
   if (!el.matches('input[data-k]')) return;
   if (el.dataset.f) el.value = finShow(el.dataset.k, finGet(el.dataset.f));
   else if (el.dataset.ov) { const r = finRowsNow[+el.dataset.m - 1]; if (r) el.value = finOvShow(el.dataset.ov, r); }
+  finFit(el);
 });
 finEl.addEventListener('input', e => {
   const el = e.target, f = state.finance;
