@@ -452,6 +452,34 @@ body.view-fin .fin{display:block;min-height:100vh;padding-bottom:70px;color:#1B2
 .bk__pic{position:absolute;z-index:2;pointer-events:none}
 .bk__chart{position:absolute;z-index:2;background:#fff;border:1px solid #D9D9D9;overflow:hidden}
 .bk__chart svg{display:block;max-width:100%;height:auto}
+/* ---- botão PDF: pergunta do nome do cliente, logo abaixo do botão ---- */
+.fin__pdfwrap{position:relative;display:inline-flex}
+.fin__pdf{position:absolute;z-index:8;top:calc(100% + 8px);right:0;width:384px;max-width:calc(100vw - 24px);padding:14px;border:1px solid #D1D5DB;border-radius:12px;background:#fff;box-shadow:0 12px 32px rgba(16,24,40,.18);font-family:var(--ui);font-size:13px;line-height:1.3;color:#111827;text-align:left;white-space:normal}
+.fin__pdf label{display:block;margin-bottom:6px;font-weight:700}
+.fin__pdf input{display:block;width:100%;height:38px;margin:0;padding:0 10px;border:1px solid #D1D5DB;border-radius:8px;background:#fff;font-family:var(--ui);font-size:14px;color:#111827}
+.fin__pdf input:focus{outline:2px solid #2563EB;outline-offset:1px}
+.fin__pdf input[aria-invalid="true"]{border-color:#B91C1C}
+.fin__pdf-file{margin:9px 0 12px;font-size:12px;line-height:1.35;color:#5B6779;overflow-wrap:anywhere}
+.fin__pdf-file b{color:#111827;font-weight:600}
+.fin__pdf-file b.is-empty{color:#8A94A6;font-weight:400}
+.fin__pdf-row{display:flex;justify-content:flex-end;gap:8px}
+/* ---- disposição usada só para medir o PDF (folha A4 em pé, 719 px de largura útil); a classe entra e sai no mesmo instante ---- */
+.fin--pdf .fin__grid{display:block!important;width:719px!important;max-width:none!important;margin:0!important;padding:0!important}
+.fin--pdf .fin__col{display:block!important}
+.fin--pdf .fin__sec{width:719px!important;margin:0!important}
+.fin--pdf .xlw{overflow:visible!important}
+.fin--pdf .xl{--px:7px!important;width:100%!important;font-size:12px!important}
+.fin--pdf .xl caption{padding:5px 8px!important;font-size:12.5px!important;white-space:nowrap!important}
+.fin--pdf .xl th,.fin--pdf .xl td,.fin--pdf .xl input,.fin--pdf .xl select{height:22px!important}
+.fin--pdf .xl thead th,.fin--pdf .xl tbody th,.fin--pdf .xl td.o,.fin--pdf .xl td.c,.fin--pdf .xl tr.sub th,.fin--pdf .xl tr.sub td{padding-top:2px!important;padding-bottom:2px!important}
+.fin--pdf .xl thead th{white-space:normal!important}
+.fin--pdf .xl tbody th,.fin--pdf .xl tr.sub th,.fin--pdf .xl tr.sub td,.fin--pdf .xl td.o{white-space:nowrap!important}
+.fin--pdf .xl td.in,.fin--pdf .xl td.is-over{background:#fff!important}
+.fin--pdf .xl--sched tbody tr:nth-child(even) td.is-over{background:#EEF3FB!important}
+.fin--pdf .xl td.in input,.fin--pdf .xl td.in select,.fin--pdf .xl td.is-over input{color:#1B2433!important}
+.fin--pdf .xl th.hin input,.fin--pdf .xl td.lbl input{min-width:0!important}
+.fin--pdf .xl td.lbl input{padding-right:var(--px)!important}
+.fin--pdf .xl .rm{display:none!important}
 @media (hover:none){.xl .rm{opacity:.7}}
 @media (max-width:1000px){.fin__grid{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:720px){
@@ -459,6 +487,8 @@ body.view-fin .fin{display:block;min-height:100vh;padding-bottom:70px;color:#1B2
   .fin__tools{flex:1 1 100%;justify-content:flex-start}
   .fin__grid,.fin__legend,.bk{padding-left:12px;padding-right:12px}
   .fin__tabs{padding-left:12px;padding-right:12px}
+  .fin__pdfwrap{position:static}
+  .fin__pdf{top:calc(100% + 6px);left:12px;right:12px;width:auto;max-width:none}
   .bk__bar{flex-direction:column}
   .bk__scroll{max-height:none}
   .xl caption{white-space:normal}
@@ -2019,6 +2049,12 @@ function finShell(tab) {
       '<div class="fin__tools">' + (book ? '<button type="button" class="ebtn" data-act="bk-reset">Restaurar valores</button><button type="button" class="ebtn" data-act="bk-csv">' + ICON.download + 'Baixar CSV (Excel)</button>'
                                          : '<button type="button" class="ebtn" data-act="fin-new">Zerar valores</button><button type="button" class="ebtn" data-act="fin-csv">' + ICON.download + 'Baixar CSV (Excel)</button>') +
         '<button type="button" class="ebtn" data-act="fin-print">Imprimir</button>' +
+        (book ? '' : '<span class="fin__pdfwrap"><button type="button" class="ebtn" data-act="fin-pdf" aria-expanded="false" aria-controls="fin-pdf">' + ICON.download + 'PDF</button>' +
+          '<div class="fin__pdf" id="fin-pdf" hidden><label for="fin-pdf-name">Nome do cliente</label>' +
+          '<input type="text" id="fin-pdf-name" autocomplete="off" maxlength="80" placeholder="Digite o nome do cliente">' +
+          '<p class="fin__pdf-file">Arquivo: <b data-pdf="file"></b></p>' +
+          '<div class="fin__pdf-row"><button type="button" class="ebtn" data-act="fin-pdf-close">Cancelar</button>' +
+          '<button type="button" class="ebtn ebtn--pri" data-act="fin-pdf-go">' + ICON.download + 'Baixar PDF</button></div></div></span>') +
         '<button type="button" class="ebtn ebtn--pri" data-act="export">' + ICON.download + 'Exportar HTML</button></div></header>' +
     (BOOK_IDS.length ? '<nav class="fin__tabs" aria-label="Planilhas da análise">' + ['base'].concat(BOOK_IDS).map(id =>
       '<a href="' + FIN_HASH + (id === 'base' ? '' : '-' + id) + '"' + (id === tab ? ' aria-current="page"' : '') + '>' + esc(id === 'base' ? 'Premissas e cronograma' : BOOKS[id].title) + '</a>').join('') + '</nav>' : '') +
@@ -2385,6 +2421,256 @@ Object.assign(ACTIONS, {
     state.finance = financeBlank();
     renderFinance(); saveDraftSoon();
   }
+});
+
+/* =====================================================================
+   PDF DA ANÁLISE (aba "Premissas e cronograma")
+   O botão PDF abre, logo abaixo dele, a pergunta "Nome do cliente" e baixa
+   um arquivo chamado  NOME DO CLIENTE-DD-MM-AAAA - GER LUCAS L.pdf
+   O PDF é escrito aqui mesmo, sem biblioteca e sem a janela de impressão:
+   as tabelas da página são medidas numa disposição de folha A4 em pé
+   (a classe fin--pdf entra e sai no mesmo instante, sem aparecer na tela)
+   e redesenhadas em vetor, com texto em Helvetica. Funciona offline, no
+   computador e no celular, e o nome do arquivo sai sempre no padrão.
+   ===================================================================== */
+const PDF_SIGN = 'GER LUCAS L';                       // assinatura no fim do nome do arquivo
+/* larguras da Helvetica (n) e da Helvetica-Bold (b), códigos 32 a 255 da codificação WinAnsi, em milésimos do corpo */
+const PDF_W = { n: [278,278,355,556,556,889,667,191,333,333,389,584,278,333,278,278,556,556,556,556,556,556,556,556,556,556,278,278,584,584,584,556,1015,667,667,722,722,667,611,778,722,278,500,667,556,833,722,778,667,778,722,667,611,722,667,944,667,667,611,278,278,278,469,556,333,556,556,500,556,556,278,556,556,222,222,500,222,833,556,556,556,556,333,500,278,556,500,722,500,500,500,334,260,334,584,350,556,350,222,556,333,1000,556,556,333,1000,667,333,1000,350,611,350,350,222,222,333,333,350,556,1000,333,1000,500,333,944,350,500,667,278,333,556,556,556,556,260,556,333,737,370,556,584,333,737,333,400,584,333,333,333,556,537,278,333,333,365,556,834,834,834,611,667,667,667,667,667,667,1000,722,667,667,667,667,278,278,278,278,722,722,778,778,778,778,778,584,778,722,722,722,722,667,667,611,556,556,556,556,556,556,889,500,556,556,556,556,278,278,278,278,556,556,556,556,556,556,556,584,611,556,556,556,556,500,556,500], b: [278,333,474,556,556,889,722,238,333,333,389,584,278,333,278,278,556,556,556,556,556,556,556,556,556,556,333,333,584,584,584,611,975,722,722,722,722,667,611,778,722,278,556,722,611,833,722,778,667,778,722,667,611,722,667,944,667,667,611,333,278,333,584,556,333,556,611,556,611,556,333,611,611,278,278,556,278,889,611,611,611,611,389,556,333,611,556,778,556,556,500,389,280,389,584,350,556,350,278,556,500,1000,556,556,333,1000,667,333,1000,350,611,350,350,278,278,500,500,350,556,1000,333,1000,556,333,944,350,500,667,278,333,556,556,556,556,280,556,333,737,370,556,584,333,737,333,400,584,333,333,333,611,556,278,333,333,365,556,834,834,834,611,722,722,722,722,722,722,1000,722,667,667,667,667,278,278,278,278,722,722,778,778,778,778,778,584,778,722,722,722,722,667,667,611,556,556,556,556,556,556,889,556,556,556,556,556,278,278,278,278,611,611,611,611,611,611,611,584,611,611,611,611,611,556,611,556] };
+/* caracteres acima de 255 que existem na WinAnsi (aspas curvas, travessão, reticências, euro...) */
+const PDF_CP1252 = { 8364: 128, 8218: 130, 402: 131, 8222: 132, 8230: 133, 8224: 134, 8225: 135, 710: 136, 8240: 137, 352: 138, 8249: 139, 338: 140, 381: 142, 8216: 145, 8217: 146, 8220: 147, 8221: 148, 8226: 149, 8211: 150, 8212: 151, 732: 152, 8482: 153, 353: 154, 8250: 155, 339: 156, 382: 158, 376: 159 };
+function pdfCodes(str) {
+  const out = [];
+  for (const ch of String(str == null ? '' : str)) {
+    let c = ch.codePointAt(0);
+    if (c === 173) continue;                                    // hífen opcional
+    if (c === 160 || c === 8201 || c === 8239 || c < 32) c = 32; // espaços especiais
+    else if (c === 8722) c = 45;                                // sinal de menos
+    else if (c >= 127 && c <= 159) c = 63;
+    else if (c > 255) c = PDF_CP1252[c] || 63;                  // fora da WinAnsi: "?"
+    out.push(c);
+  }
+  return out;
+}
+const pdfTextW = (codes, bold, size) => { const w = PDF_W[bold ? 'b' : 'n']; let s = 0; for (let i = 0; i < codes.length; i++) s += w[codes[i] - 32] || 556; return s * size / 1000; };
+const pdfHex = codes => '<' + codes.map(c => (c < 16 ? '0' : '') + c.toString(16)).join('') + '>';
+const pdfNum = v => String(Math.round(v * 100) / 100);
+function pdfColor(css) {
+  const m = /rgba?\(\s*([\d.]+)[,\s]+([\d.]+)[,\s]+([\d.]+)(?:[,\s\/]+([\d.]+))?/.exec(css || '');
+  if (!m || (m[4] !== undefined && parseFloat(m[4]) === 0)) return null;      // transparente
+  return [m[1], m[2], m[3]].map(v => pdfNum(v / 255)).join(' ');
+}
+function pdfWrap(text, bold, size, maxW) {
+  const lines = [];
+  let cur = '';
+  String(text).split(' ').forEach(word => {
+    const next = cur ? cur + ' ' + word : word;
+    if (cur && pdfTextW(pdfCodes(next), bold, size) > maxW) { lines.push(cur); cur = word; } else cur = next;
+  });
+  if (cur) lines.push(cur);
+  return lines.map(pdfCodes);
+}
+/* texto que não cabe na largura: corta e termina com reticências */
+function pdfFit(codes, bold, size, maxW) {
+  if (pdfTextW(codes, bold, size) <= maxW) return codes;
+  const out = codes.slice();
+  while (out.length > 1 && pdfTextW(out.concat(133), bold, size) > maxW) out.pop();
+  while (out.length > 1 && out[out.length - 1] === 32) out.pop();
+  return out.concat(133);
+}
+/* monta o arquivo: pages = [{ w, h, ops }] com os comandos de desenho de cada página */
+function pdfMake(pages, title) {
+  const parts = [], offs = [];
+  let len = 0;
+  const push = s => { parts.push(s); len += s.length; };        // só caracteres de 1 byte: tamanho do texto = tamanho em bytes
+  const obj = (n, body) => { offs[n] = len; push(n + ' 0 obj\n' + body + '\nendobj\n'); };
+  const utf16 = s => { let h = 'FEFF'; for (let i = 0; i < s.length; i++) h += ('000' + s.charCodeAt(i).toString(16)).slice(-4); return '<' + h.toUpperCase() + '>'; };
+  const d = new Date(), p2 = n => String(n).padStart(2, '0');
+  push('%PDF-1.4\n%' + String.fromCharCode(226, 227, 207, 211) + '\n');
+  obj(1, '<< /Type /Catalog /Pages 2 0 R /Lang (pt-BR) >>');
+  obj(2, '<< /Type /Pages /Count ' + pages.length + ' /Kids [' + pages.map((p, i) => (6 + 2 * i) + ' 0 R').join(' ') + '] >>');
+  obj(3, '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>');
+  obj(4, '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>');
+  obj(5, '<< /Title ' + utf16(title) + ' /CreationDate (D:' + d.getFullYear() + p2(d.getMonth() + 1) + p2(d.getDate()) + p2(d.getHours()) + p2(d.getMinutes()) + p2(d.getSeconds()) + ') >>');
+  pages.forEach((p, i) => {
+    obj(6 + 2 * i, '<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ' + pdfNum(p.w) + ' ' + pdfNum(p.h) + '] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents ' + (7 + 2 * i) + ' 0 R >>');
+    obj(7 + 2 * i, '<< /Length ' + p.ops.length + ' >>\nstream\n' + p.ops + '\nendstream');
+  });
+  const xref = len, count = 6 + 2 * pages.length;
+  let table = 'xref\n0 ' + count + '\n0000000000 65535 f \n';
+  for (let n = 1; n < count; n++) table += ('000000000' + offs[n]).slice(-10) + ' 00000 n \n';
+  push(table + 'trailer\n<< /Size ' + count + ' /Root 1 0 R /Info 5 0 R >>\nstartxref\n' + xref + '\n%%EOF\n');
+  const s = parts.join(''), out = new Uint8Array(s.length);
+  for (let i = 0; i < s.length; i++) out[i] = s.charCodeAt(i) & 255;
+  return out;
+}
+
+/* nome do arquivo: NOME DO CLIENTE-DD-MM-AAAA - GER LUCAS L.pdf (sem os caracteres que o sistema de arquivos recusa) */
+function finPdfName(client, when) {
+  const d = when || new Date(), p2 = n => String(n).padStart(2, '0');
+  const name = String(client || '').replace(/[\\\/:*?"<>|]+/g, ' ').replace(/[\x00-\x1f\x7f]+/g, ' ').replace(/\s+/g, ' ').replace(/^[.~ ]+/, '').replace(/[. ]+$/, '');   // o navegador troca "." e "~" iniciais
+  return (name ? name.toLocaleUpperCase('pt-BR') : 'NOME DO CLIENTE') + '-' + p2(d.getDate()) + '-' + p2(d.getMonth() + 1) + '-' + d.getFullYear() + ' - ' + PDF_SIGN + '.pdf';
+}
+
+/* mede as tabelas da página na disposição do PDF: cada linha com a altura e, por célula, posição, largura, fundo, texto e alinhamento */
+function finPdfMeasure() {
+  const sx = window.scrollX, sy = window.scrollY, tables = [], widened = [];
+  finEl.classList.add('fin--pdf');
+  try {
+    $$('table.xl input[data-k="text"]', finEl).forEach(inp => {      // nome comprido digitado: a coluna cresce (até 45% da tabela) para o texto caber
+      const cs = getComputedStyle(inp), need = pdfTextW(pdfCodes(inp.value), (parseInt(cs.fontWeight, 10) || 400) >= 600, parseFloat(cs.fontSize) || 12) + 18;
+      if (need > 110) { widened.push([inp, inp.style.getPropertyValue('min-width'), inp.style.getPropertyPriority('min-width')]); inp.style.setProperty('min-width', Math.min(324, Math.ceil(need)) + 'px', 'important'); }
+    });
+    $$('table.xl', finEl).forEach(tb => {
+      const T = tb.getBoundingClientRect(), rows = [];
+      const cellOf = (el, cap) => {
+        const r = el.getBoundingClientRect(), field = el.querySelector('input,select'), src = field || el;
+        const cs = getComputedStyle(src), cc = getComputedStyle(el), ta = cs.textAlign;
+        const text = field ? (field.tagName === 'SELECT' ? ((field.options[field.selectedIndex] || {}).text || '') : field.value) : el.textContent;
+        return { x: r.left - T.left, w: r.width, h: r.height, cap: !!cap, bg: pdfColor(cc.backgroundColor), text: String(text).replace(/\s+/g, ' ').trim(),
+          align: /right|end/.test(ta) ? 'right' : /center/.test(ta) ? 'center' : 'left', bold: (parseInt(cs.fontWeight, 10) || 400) >= 600,
+          size: parseFloat(cs.fontSize) || 12, color: pdfColor(cs.color) || '0 0 0', wrap: !field && cc.whiteSpace !== 'nowrap',
+          padL: parseFloat(cs.paddingLeft) || 0, padR: field && field.tagName === 'INPUT' && !/right|end/.test(ta) ? parseFloat(cc.paddingRight) || 6 : parseFloat(cs.paddingRight) || 0 };
+      };
+      if (tb.caption) { const c = cellOf(tb.caption, true); rows.push({ head: true, h: c.h, cells: [c] }); }
+      Array.prototype.forEach.call(tb.rows, tr => {
+        const cells = Array.prototype.map.call(tr.cells, td => cellOf(td)), h = Math.max.apply(null, cells.map(c => c.h).concat(0));
+        if (h > 0) rows.push({ head: tr.parentNode.tagName === 'THEAD', ref: tr.classList.contains('is-ref'), h: h, cells: cells });
+      });
+      if (rows.length) tables.push({ w: T.width, rows: rows });
+    });
+  } finally {
+    widened.forEach(w => { if (w[1]) w[0].style.setProperty('min-width', w[1], w[2]); else w[0].style.removeProperty('min-width'); });
+    finEl.classList.remove('fin--pdf');
+    window.scrollTo(sx, sy);
+  }
+  return tables;
+}
+
+/* desenha as tabelas medidas em páginas A4 em pé; tabela que não cabe no resto da folha vai para a seguinte,
+   e a que é maior que uma folha (cronograma longo) é dividida por linhas, repetindo título e cabeçalho */
+function finPdfBuild(subtitle, fileTitle) {
+  const K = 0.75, PW = 595.28, PH = 841.89, ML = 28, MB = 38, TOP1 = 80, TOPN = 54, GAP = 14;   // K: pontos por pixel medido
+  const GRAY = '0.357 0.404 0.475', BLUE = '0.122 0.263 0.569', LINE = '0.812 0.839 0.882', RULE = '0.835 0.859 0.898';
+  const tables = finPdfMeasure(), pages = [];
+  let ops, oy, avail, y;
+  const availOf = top => (PH - top - MB) / K;
+  const newPage = () => { ops = []; pages.push(ops); oy = pages.length === 1 ? TOP1 : TOPN; avail = availOf(oy); y = 0; };
+  const X = px => ML + px * K, Y = px => PH - (oy + px * K);
+  const text = (codes, x, yb, bold, size, color) => ops.push('BT /F' + (bold ? 2 : 1) + ' ' + pdfNum(size) + ' Tf ' + color + ' rg ' + pdfNum(x) + ' ' + pdfNum(yb) + ' Td ' + pdfHex(codes) + ' Tj ET');
+  function drawCell(c, yTop, h, row, cont) {
+    const re = pdfNum(X(c.x)) + ' ' + pdfNum(Y(yTop + h)) + ' ' + pdfNum(c.w * K) + ' ' + pdfNum(h * K) + ' re';
+    if (c.bg) ops.push(c.bg + ' rg ' + re + ' f');
+    if (!c.cap) ops.push(LINE + ' RG 0.5 w ' + re + ' S');
+    if (row.ref && c === row.cells[0]) ops.push('0.118 0.443 0.271 rg ' + pdfNum(X(c.x)) + ' ' + pdfNum(Y(yTop + h)) + ' ' + pdfNum(3 * K) + ' ' + pdfNum(h * K) + ' re f');   // mês de referência
+    if (!c.text) return;
+    let size = c.size * K;
+    const maxW = Math.max(6, (c.w - c.padL - c.padR) * K);
+    const label = c.cap && cont ? c.text + ' (continuação)' : c.text;
+    let lines = [pdfCodes(label)];
+    if (c.wrap && pdfTextW(lines[0], c.bold, size) > maxW) lines = pdfWrap(label, c.bold, size, maxW);
+    const widest = Math.max.apply(null, lines.map(l => pdfTextW(l, c.bold, size)));
+    if (widest > maxW) { size *= Math.max(0.72, maxW / widest); lines = lines.map(l => pdfFit(l, c.bold, size, maxW)); }   // não coube: reduz o corpo e, no limite, corta
+    if (lines.length * size * 1.18 > h * K) size = Math.max(4, h * K / (lines.length * 1.18));
+    const lh = size * 1.18, cy = Y(yTop + h / 2);
+    lines.forEach((l, i) => {
+      const w = pdfTextW(l, c.bold, size), yb = cy + (lines.length - 1) * lh / 2 - i * lh - size * 0.35;
+      const x = c.align === 'right' ? X(c.x + c.w - c.padR) - w : c.align === 'center' ? X(c.x + c.padL + (c.w - c.padL - c.padR) / 2) - w / 2 : X(c.x + c.padL);
+      text(l, x, yb, c.bold, size, c.color);
+    });
+  }
+  const drawRow = (r, cont) => { r.cells.forEach(c => drawCell(c, y, r.h, r, cont)); y += r.h; };
+  newPage();
+  const full = availOf(TOPN);
+  tables.forEach(t => {
+    const head = t.rows.filter(r => r.head), body = t.rows.filter(r => !r.head);
+    const sum = a => a.reduce((s, r) => s + r.h, 0), all = sum(t.rows), min = sum(head) + sum(body.slice(0, 3));
+    if (y > 0 && y + all > avail && (all <= full || y + min > avail)) newPage();     // não cabe no resto da folha
+    head.forEach(r => drawRow(r));
+    body.forEach(r => { if (y + r.h > avail) { newPage(); head.forEach(h => drawRow(h, true)); } drawRow(r); });
+    y += GAP;
+  });
+  // cabeçalho e rodapé de cada página
+  const d = new Date(), p2 = n => String(n).padStart(2, '0'), date = pdfCodes(p2(d.getDate()) + '/' + p2(d.getMonth() + 1) + '/' + d.getFullYear());
+  const sub = pdfCodes(subtitle || '');
+  pages.forEach((pg, i) => {
+    ops = [];                                    // o cabeçalho entra no começo da página, para a ordem de leitura do PDF ficar certa
+    if (i === 0) {
+      text(pdfCodes('Análise financeira'), ML, PH - 46, true, 17, BLUE);
+      if (sub.length) text(pdfFit(sub, false, 10.5, PW - 2 * ML), ML, PH - 62, false, 10.5, GRAY);
+      text(date, PW - ML - pdfTextW(date, false, 9.5), PH - 46, false, 9.5, GRAY);
+      ops.push(RULE + ' RG 0.8 w ' + pdfNum(ML) + ' ' + pdfNum(PH - 71) + ' m ' + pdfNum(PW - ML) + ' ' + pdfNum(PH - 71) + ' l S');
+    } else {
+      const run = pdfFit(pdfCodes('Análise financeira' + (subtitle ? ' | ' + subtitle : '')), false, 9, PW - 2 * ML - pdfTextW(date, false, 9) - 14);
+      text(run, ML, PH - 38, false, 9, GRAY);
+      text(date, PW - ML - pdfTextW(date, false, 9), PH - 38, false, 9, GRAY);
+      ops.push(RULE + ' RG 0.8 w ' + pdfNum(ML) + ' ' + pdfNum(PH - 45) + ' m ' + pdfNum(PW - ML) + ' ' + pdfNum(PH - 45) + ' l S');
+    }
+    Array.prototype.unshift.apply(pg, ops);
+    ops = pg;
+    const foot = pdfCodes('Página ' + (i + 1) + ' de ' + pages.length);
+    text(foot, PW - ML - pdfTextW(foot, false, 8), 20, false, 8, GRAY);
+  });
+  return pdfMake(pages.map(pg => ({ w: PW, h: PH, ops: pg.join('\n') })), fileTitle);
+}
+
+/* ---------- botão PDF e pergunta do nome do cliente ---------- */
+const finPdfBox = () => $('#fin-pdf', finEl);
+function finPdfPreview() {
+  const box = finPdfBox();
+  if (!box) return;
+  const v = $('#fin-pdf-name', box).value, out = $('[data-pdf="file"]', box);
+  out.textContent = finPdfName(v);
+  out.classList.toggle('is-empty', !v.trim());
+}
+function finPdfToggle(open) {
+  const box = finPdfBox(), btn = $('[data-act="fin-pdf"]', finEl);
+  if (!box || !btn) return;
+  open = open === undefined ? box.hidden : open;
+  box.hidden = !open;
+  btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  if (!open) return;
+  const inp = $('#fin-pdf-name', box);
+  inp.value = (state.finance.provider || '').trim();           // o cliente é o provedor identificado na página
+  inp.removeAttribute('aria-invalid');
+  finPdfPreview();
+  inp.focus(); inp.select();
+}
+function finPdfDownload() {
+  const box = finPdfBox();
+  if (!box) return;
+  const inp = $('#fin-pdf-name', box), client = inp.value.replace(/\s+/g, ' ').trim();
+  if (!client) { inp.setAttribute('aria-invalid', 'true'); inp.focus(); toast('Digite o nome do cliente para gerar o PDF.'); return; }
+  const name = finPdfName(client);
+  let bytes;
+  try { bytes = finPdfBuild($('[data-o="title"]', finEl).textContent, name.replace(/\.pdf$/, '')); }
+  catch (e) { toast('Não foi possível gerar o PDF neste navegador.'); return; }
+  const url = URL.createObjectURL(new Blob([bytes], { type: 'application/pdf' }));
+  const a = document.createElement('a');
+  a.href = url; a.download = name; a.style.display = 'none';
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 4000);
+  finPdfToggle(false);
+  toast('PDF baixado: ' + name);
+}
+/* o nome digitado é o mesmo "Nome do provedor" da página: aparece no PDF e no nome do arquivo */
+finEl.addEventListener('input', e => {
+  const el = e.target;
+  if (el.id !== 'fin-pdf-name') return;
+  state.finance.provider = el.value;
+  const cell = $('input[data-f="provider"]', finEl);
+  if (cell) cell.value = el.value;
+  el.removeAttribute('aria-invalid');
+  finRefresh(); finPdfPreview(); saveDraftSoon();
+});
+finEl.addEventListener('keydown', e => {
+  if (e.target.id !== 'fin-pdf-name') return;
+  if (e.key === 'Enter') { e.preventDefault(); finPdfDownload(); }
+  else if (e.key === 'Escape') { finPdfToggle(false); $('[data-act="fin-pdf"]', finEl).focus(); }
+});
+Object.assign(ACTIONS, {
+  'fin-pdf': () => finPdfToggle(),
+  'fin-pdf-close': () => finPdfToggle(false),
+  'fin-pdf-go': () => finPdfDownload()
 });
 
 /* =====================================================================
