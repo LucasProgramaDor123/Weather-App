@@ -2061,7 +2061,7 @@ const FIN_HASH = '#analise';
 const finEl = $('#fin');
 /* abas da análise: 'base' (premissas e cronograma), 'livro' (Cenário Livro) e uma para cada planilha
    convertida do Excel que estiver no arquivo (#analise-sim) */
-const finTabs = () => ['base', 'livro'].concat(BOOK_IDS);
+const finTabs = () => ['base'].concat(BOOK_IDS, ['livro']);          // Cenário Livro à direita do simulador
 const finTabLabel = id => (id === 'base' ? 'Premissas e cronograma' : id === 'livro' ? 'Cenário Livro' : BOOKS[id].title);
 const finTabFromHash = () => { const m = /^#analise-(\w+)$/.exec(location.hash); return m && (m[1] === 'livro' || BOOKS[m[1]]) ? m[1] : 'base'; };
 function finShell(tab) {
